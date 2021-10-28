@@ -28,4 +28,16 @@
   - selected (boolean)
   - setInterviewer (function)
 
+## Form
+- state (tracks state of the interviewers numbered id and the students name)
+  - setStudent
+  - setInterviewer
+- props:
+  - student (string)
+  - interviewers (array)
+  - interviewer (number)
+  - onSave (function)
+  - onCancel (function)
+
+
 

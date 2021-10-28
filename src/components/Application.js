@@ -1,25 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment"; //auto assumes its index.js
-
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
+import axios from 'axios'
 
 const appointments = [
   {
@@ -59,9 +42,22 @@ const appointments = [
     time: "4pm",
   }
 ];
+const baseURL = `http://localhost:8001`
 
 export default function Application() {
   const [day, setDay] = useState("Monday");
+  const [days, setDays] = useState([])
+
+  useEffect(() => {
+    axios.get(`${baseURL}/api/days`)
+      .then((response) => {
+        console.log(response.data);
+        setDays(response.data);
+      })
+      .catch((err) => {
+        console.log(err.message)
+      });
+  }, []);
 
   const appointmentArray = appointments.map((appointment) => {
     return (

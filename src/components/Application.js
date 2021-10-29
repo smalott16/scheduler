@@ -3,7 +3,7 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment"; //auto assumes its index.js
 import axios from 'axios'
-import { getAppointmentsForDay } from "../helpers/selectors";
+import { getAppointmentsForDay, getInterviewersForDay } from "../helpers/selectors";
 
 
 export default function Application() {
@@ -11,7 +11,8 @@ export default function Application() {
   const [state, setState] = useState({
     day:"Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
   
   const setDay = (day) => setState({...state, day});
@@ -31,20 +32,24 @@ export default function Application() {
     ])
     .then((responses) => {
       setState((prev) => {
-        return {...prev, days: responses[0].data, appointments: responses[1].data} 
+        console.log(responses)
+        return {...prev, days: responses[0].data, appointments: responses[1].data, interviewers: responses[2].data} 
       })  
     })
     .catch((err) => {
       console.log(err.message);
-    })   
+    }) 
+  
   }, []);
   
   let dailyAppointments = getAppointmentsForDay(state, state.day);
+  let dailyInterviewers = getInterviewersForDay(state, state.day);
   const appointmentArray = dailyAppointments.map((appointment) => {
     return (
       <Appointment 
         key={appointment.id}
         {...appointment}
+        interviewers={dailyInterviewers}
       />
     )
   })

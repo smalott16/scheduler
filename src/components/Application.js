@@ -3,7 +3,7 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment"; //auto assumes its index.js
 import axios from 'axios'
-import { getAppointmentsForDay, getInterviewersForDay } from "../helpers/selectors";
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "../helpers/selectors";
 
 
 export default function Application() {
@@ -32,7 +32,6 @@ export default function Application() {
     ])
     .then((responses) => {
       setState((prev) => {
-        console.log(responses)
         return {...prev, days: responses[0].data, appointments: responses[1].data, interviewers: responses[2].data} 
       })  
     })

@@ -14,14 +14,23 @@ export default function Appointment(props) {
   const CREATE = "CREATE"
   const { mode, transition, back} = useVisualMode(interview ? SHOW : EMPTY);
 
+  const getInterviewerName = (interviewerID) => {
+    for (let interviewer of interviewers) {
+      if (interviewerID === interviewer.id) {
+        return interviewer.name;
+      }
+    }
+  }
+
   return (
     <article className="appointment">
       <Header time={time}/>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
-          student={props.interview.student}
-          interviewer={props.interview.interviewer}
+          student={interview.student}
+          interviewer={interview.interviewer}
+          interviewerName={getInterviewerName(interview.interviewer)}
         />
       )}
       {mode === CREATE && (

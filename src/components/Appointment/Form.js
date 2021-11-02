@@ -6,7 +6,7 @@ import Button from 'components/Button';
 export default function Form(props) {
   //note although interviewer and student are passed in as props, we cant include them in the object destructureing
   //because js will say we are declaring it twice. We therefore have to access them through props.student or props.interviewer
-  const { interviewers, onSave, onCancel } = props;
+  const { interviewers, onSave, onCancel} = props;
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
@@ -19,7 +19,7 @@ export default function Form(props) {
     reset();
     onCancel();
   }
-  
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -43,7 +43,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={()=>cancel()}>Cancel</Button>
-          <Button confirm onClick={onSave}>Save</Button>
+          <Button confirm onClick={() => onSave(student, interviewer)}>Save</Button>
         </section>
       </section>
     </main>

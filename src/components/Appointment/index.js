@@ -45,7 +45,7 @@ export default function Appointment(props) {
         transition(SHOW);
       }) 
       .catch((err) => {
-        console.log("appointment save error", err.message)
+        console.log("ERROR: appointment save error", err.message)
         transition(ERROR_SAVE, true);
       });
    
@@ -58,7 +58,7 @@ export default function Appointment(props) {
         transition(EMPTY);
       })
       .catch((err) => {
-        console.log("appointment destroy error", err.message)
+        console.log("ERROR: appointment destroy error", err.message)
         transition(ERROR_DELETE, true);
       })
   }
@@ -95,7 +95,7 @@ export default function Appointment(props) {
           interviewers={interviewers}
           onCancel={() => back()}
           onSave={save} 
-          student={interview.student}
+          name={interview.student}
           interviewer={interview.interviewer}
         />
       )}

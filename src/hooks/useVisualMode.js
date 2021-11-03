@@ -13,14 +13,14 @@ export default function useVisualMode(modeInit) {
     if (!replace) {
       updatedHistory.push(modeInit);
     }
-    console.log(replace, updatedHistory)
+    
     setHistory(updatedHistory);
     //setHistory((prev) => ([...prev, modeInit]));
     return setMode(updatedHistory.slice(-1)[0]);
   };
 
   const back = () => {
-    console.log("back", updatedHistory)
+    
     if (updatedHistory.length > 1) {
       updatedHistory.pop()
       setHistory(updatedHistory)

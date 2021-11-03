@@ -180,7 +180,7 @@ storiesOf("Appointment", module)
 ))
 .add("Edit", () => (
   <Form 
-    student="Spencer Malott"
+    name="Spencer Malott"
     interviewer={2}
     interviewers={interviewers}
     onSave={action("onSave")}
@@ -209,4 +209,4 @@ storiesOf("Appointment", module)
     />
     <Appointment time="5pm" />
   </Fragment>
-));
+))

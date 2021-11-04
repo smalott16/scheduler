@@ -15,13 +15,13 @@ export default function Appointment(props) {
   
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
-  const CREATE = "CREATE"
-  const SAVING = "SAVING"
-  const CONFIRM = "CONFIRM"
-  const DELETING = "DELETING"
-  const EDIT = "EDIT"
-  const ERROR_SAVE = "ERROR_SAVE"
-  const ERROR_DELETE = "ERROR_DELETE"
+  const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  const CONFIRM = "CONFIRM";
+  const DELETING = "DELETING";
+  const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const { mode, transition, back} = useVisualMode(interview ? SHOW : EMPTY);
 
@@ -45,7 +45,7 @@ export default function Appointment(props) {
         transition(SHOW);
       }) 
       .catch((err) => {
-        console.log("ERROR: appointment save error", err.message)
+        console.log("ERROR: appointment save error", err.message);
         transition(ERROR_SAVE, true);
       });
    
@@ -58,7 +58,7 @@ export default function Appointment(props) {
         transition(EMPTY);
       })
       .catch((err) => {
-        console.log("ERROR: appointment destroy error", err.message)
+        console.log("ERROR: appointment destroy error", err.message);
         transition(ERROR_DELETE, true);
       })
   }

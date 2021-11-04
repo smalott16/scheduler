@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 export default function useApplicationDefault() {
   const [state, setState] = useState({
@@ -37,26 +37,21 @@ export default function useApplicationDefault() {
   const calculateSpots = (appointments) => {
     let spots = 0;
     let newDay = {id: null, name: null, appointments: [], interviewers: [], spots: null}
-    console.log("passed", appointments)
-    console.log("state", state.appointments)
+    
     for (let currentDay of state.days) {
       if (currentDay.name === state.day) {
-        console.log("currentDay", currentDay);
         currentDay.appointments.map((appointmentID) => {
           
           if (!appointments[appointmentID].interview) {
-            console.log("count +")
             spots++;
           }
 
         });
-        newDay = {...currentDay, spots}
-        console.log("newDay", newDay)
+        newDay = {...currentDay, spots};
       }
 
     }
-    const newDays = state.days.map(d => d.name === state.day? newDay : d)
-    console.log(newDays);
+    const newDays = state.days.map(d => d.name === state.day? newDay : d);
     return newDays;
   };
   
@@ -86,25 +81,26 @@ export default function useApplicationDefault() {
   
   const cancelInterview = (id) => {
     
-    const appointment = {
-      ...state.appointments[id], 
-      interview: null
-    };
-
-    const appointments = {
-      ...state.appointments, 
-      [id]: appointment
-    };
-
-    setState((prev) => ({
-      ...prev,
-      appointments
-    }));
-
     return axios.delete(`/api/appointments/${id}`)
-      .then(() => {
-        setDays(calculateSpots(appointments));
-      });
+    .then(() => {
+
+      const appointment = {
+        ...state.appointments[id], 
+        interview: null
+      };
+  
+      const appointments = {
+        ...state.appointments, 
+        [id]: appointment
+      };
+  
+      setState((prev) => ({
+        ...prev,
+        appointments
+      }));
+
+      setDays(calculateSpots(appointments));
+    });
   
   }
   

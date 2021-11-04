@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+//used to keep track of the traversal history through the appointment form
 export default function useVisualMode(modeInit) {
   const [mode, setMode] = useState(modeInit);
   const [history, setHistory] = useState([modeInit]);
@@ -7,7 +8,7 @@ export default function useVisualMode(modeInit) {
 
   const transition = (modeInit, replace = false) => {
     if(replace) {
-      updatedHistory.splice(-1, 1, modeInit)
+      updatedHistory.splice(-1, 1, modeInit);
     } 
     
     if (!replace) {
@@ -15,19 +16,18 @@ export default function useVisualMode(modeInit) {
     }
     
     setHistory(updatedHistory);
-    //setHistory((prev) => ([...prev, modeInit]));
     return setMode(updatedHistory.slice(-1)[0]);
   };
 
   const back = () => {
     
     if (updatedHistory.length > 1) {
-      updatedHistory.pop()
-      setHistory(updatedHistory)
+      updatedHistory.pop();
+      setHistory(updatedHistory);
       return setMode(updatedHistory.slice(-1)[0]);
     }
   };
 
-  return { mode, transition, back }
+  return { mode, transition, back };
 };
 

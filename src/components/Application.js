@@ -1,5 +1,5 @@
 import React from "react";
-import useApplicationData from 'hooks/useApplicationData'
+import useApplicationData from 'hooks/useApplicationData';
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment"; //auto assumes its index.js
@@ -27,8 +27,8 @@ export default function Application() {
         bookInterview = {bookInterview}
         cancelInterview = {cancelInterview}
       />
-    )
-  })
+    );
+  });
 
   return (
     <main className="layout">
@@ -59,4 +59,4 @@ export default function Application() {
     </main>
   );
 
-}
+};

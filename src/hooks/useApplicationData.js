@@ -1,3 +1,6 @@
+//This hook handles setting state for the broad scale of the app
+//It also handles side effects such as network requests
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -12,6 +15,7 @@ export default function useApplicationDefault() {
   const setDay = (day) => setState({...state, day});
   const setDays = (days) => setState(prev => ({...prev, days}));
   
+  //retrieve database information and update state to reflect db contents
   useEffect(() => {
     
     const daysPromise = axios.get(`/api/days`);
@@ -24,16 +28,18 @@ export default function useApplicationDefault() {
       interviewersPromise,
     ])
     .then((responses) => {
+      //set the overall application state based on the database contents on initial load/refresh
       setState((prev) => {
         return {...prev, days: responses[0].data, appointments: responses[1].data, interviewers: responses[2].data} 
       })  
     })
     .catch((err) => {
       console.log(err.message);
-    }) 
+    }); 
   
   }, []);
 
+  //function called each time an intervirw is added or deleted to determine the # available time slots
   const calculateSpots = (appointments) => {
     let spots = 0;
     let newDay = {id: null, name: null, appointments: [], interviewers: [], spots: null}
@@ -43,18 +49,20 @@ export default function useApplicationDefault() {
         currentDay.appointments.map((appointmentID) => {
           
           if (!appointments[appointmentID].interview) {
-            spots++;
+            return spots++;
           }
 
         });
-        newDay = {...currentDay, spots};
-      }
 
+        newDay = {...currentDay, spots};
+
+      }
     }
     const newDays = state.days.map(d => d.name === state.day? newDay : d);
     return newDays;
   };
   
+  //called as part of the booking process - add intervirew info to db, update state to reflect update
   const bookInterview = (id, interview) => {
     
     const appointment = {
@@ -67,18 +75,18 @@ export default function useApplicationDefault() {
       [id]: appointment
     };
   
-    setState((prev) => ({
-      ...prev,
-      appointments
-    }));
-  
     return axios.put(`/api/appointments/${id}`, {...appointment})
-      .then(() => {
-       setDays(calculateSpots(appointments));
-      });
-    
+    .then(() => {
+      setState((prev) => ({
+        ...prev,
+        appointments
+      }));
+      setDays(calculateSpots(appointments));
+    });
+
   };
   
+  //called as part of the delete interview process - update database, set state
   const cancelInterview = (id) => {
     
     return axios.delete(`/api/appointments/${id}`)

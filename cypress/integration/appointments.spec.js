@@ -29,6 +29,7 @@ describe("Appointments", () => {
   it("should edit an interview", () => {
     
     cy.get("[alt=Edit]")
+      .first()
       .click({ force: true });
 
     cy.get(".interviewers__item")
@@ -45,6 +46,7 @@ describe("Appointments", () => {
   it("should cancel an interview", () => {
 
     cy.get("[alt=Delete]")
+      .first()
       .click({ force: true });
 
     cy.contains("Confirm")
